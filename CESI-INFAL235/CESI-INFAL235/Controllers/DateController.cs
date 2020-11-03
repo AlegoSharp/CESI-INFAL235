@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -11,11 +12,10 @@ namespace CESI_INFAL235.Controllers
     [ApiController]
     public class DateController : ControllerBase
     {
-        // GET: api/Date
         [HttpGet]
-        public string Get()
+        public IActionResult Get()
         {
-            return DateTime.Now.ToString();
+            return Ok(DateTime.Now.ToString());
         }
     }
 }
