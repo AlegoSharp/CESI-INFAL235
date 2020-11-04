@@ -15,7 +15,8 @@ namespace CESI_INFAL235.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(DateTime.Now.ToString());
+            return Ok(DateTime.Now);
         }
+
     }
 }

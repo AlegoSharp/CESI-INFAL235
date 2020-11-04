@@ -14,10 +14,10 @@ namespace TestThreading
     public class Program
     {
 
-        private HttpClient httpClient;
-        private Uri requestUri;
-        private List<string> values;
-        static void Main(string[] args)
+        public HttpClient httpClient;
+        public Uri requestUri;
+        public List<string> values;
+        static void Mainz(string[] args)
         {
             Console.WriteLine("running");
             string adr = Properties.Api.Default.Adresse;
@@ -52,14 +52,14 @@ namespace TestThreading
 
         public static async void GetDate()
         {
-            HttpWebRequest http = (HttpWebRequest)WebRequest.Create("https://localhost:44343/api/date");
+            HttpWebRequest http = (HttpWebRequest)WebRequest.Create("https://localhost:44343/api/e5");
             WebResponse response = http.GetResponse();
-            Stream stream = response.GetResponseStream();
-            StreamReader sr = new StreamReader(stream);
-            string content = sr.ReadToEnd();
-            Console.WriteLine(content);
+            //Stream stream = response.GetResponseStream();
+            //StreamReader sr = new StreamReader(stream);
+            //string content = sr.ReadToEnd();
+            //Console.WriteLine(content);
         }
-        public async Task<string> CallDate()
+        public async void CallDate()
         {
             string httpResponseBody = "";
             try
@@ -70,8 +70,8 @@ namespace TestThreading
             {
                 httpResponseBody = "Error: " + ex.HResult.ToString("X") + " Message: " + ex.Message;
             }
-            Console.WriteLine(httpResponseBody);
-            return httpResponseBody;
+            //Console.WriteLine(httpResponseBody);
+            
         }
 
     }

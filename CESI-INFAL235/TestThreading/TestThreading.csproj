@@ -43,6 +43,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\ATask.cs" />
+    <Compile Include="Classes\TaskResult.cs" />
+    <Compile Include="MainQuery.cs" />
     <Compile Include="Properties\Api.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
