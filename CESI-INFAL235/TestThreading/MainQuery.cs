@@ -15,6 +15,9 @@ namespace TestThreading
             string arg1 = "";
             string arg2 = "";
             string arg3 = "";
+            int leftPosition = 0;
+            if(leftPosition > 0)
+                leftPosition = Console.CursorLeft;
             if (args.Length > 0)
             {
                 arg1 = args[0];
@@ -42,15 +45,23 @@ namespace TestThreading
                     MultiTaskMultiThreadTen(); Environment.Exit(0); break;
 
                 case "5":
+                    Console.SetCursorPosition(0, 1);
+                    Console.WriteLine("...");
+                    Console.SetCursorPosition(0, 3);
+                    Console.WriteLine("...");
+
+                    Console.SetCursorPosition(0, 0);
                     Console.WriteLine("Nb thread");
+                    //Console.CursorTop++;
                     arg2 = Console.ReadLine();
                     Console.WriteLine("Nb query to api");
+                    //Console.CursorTop++;
                     arg3 = Console.ReadLine();
-                    MultiTaskMultiThreadTen(int.Parse(arg2),int.Parse(arg3), Console.CursorLeft);
+
+                    MultiTaskMultiThreadTen(int.Parse(arg2),int.Parse(arg3), leftPosition);
                     break;
             }
-            
-            Console.SetCursorPosition(Console.CursorLeft + 30, 0);
+            leftPosition = leftPosition + 30;
             Main(args);
         }
 
@@ -161,8 +172,13 @@ namespace TestThreading
             var tasks = a.RunPoolOfTasks(nbQuery/ nbThread,true);
 
             Console.ForegroundColor = ConsoleColor.Green;
+            Console.CursorLeft = leftPos;
+            Console.WriteLine("NB THREAD : " + nbThread);
+            Console.WriteLine("NB CALLS : " + nbQuery);
             Console.WriteLine("Minutes : " + (a.Start - a.End).Minutes);
+            Console.CursorTop++;
             Console.WriteLine("Secondes : " + (a.Start - a.End).Seconds);
+            Console.CursorTop++;
             Console.WriteLine("Millisecondes : " + (a.Start - a.End).Milliseconds);
             Console.ReadLine();
         }

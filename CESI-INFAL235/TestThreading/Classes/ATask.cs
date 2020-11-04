@@ -40,8 +40,8 @@ namespace TestThreading.Classes
                     }
                 }).Start();
                 Thread.Sleep(40);
-                Console.SetCursorPosition(LeftPosition, 20);
-                Console.WriteLine("NB TASK DONE : " + Compteur);
+                //Console.SetCursorPosition(LeftPosition, 20);
+                //Console.WriteLine("NB TASK DONE : " + Compteur);
 
             }
 
@@ -52,8 +52,8 @@ namespace TestThreading.Classes
                     Thread.Sleep(10);
                 }
             }
-            Console.SetCursorPosition(LeftPosition, 20);
-            Console.WriteLine("NB TASK DONE : " + Compteur);
+            //Console.SetCursorPosition(LeftPosition, 20);
+            //Console.WriteLine("NB TASK DONE : " + Compteur);
             End = DateTime.Now;
 
             return TotalMs / Compteur;
@@ -74,8 +74,8 @@ namespace TestThreading.Classes
                     RunNewTask();
                 }
                 Thread.Sleep(50);
-                Console.SetCursorPosition(LeftPosition, 20);
-                Console.WriteLine("NB TASK DONE : " + Compteur);
+                //Console.SetCursorPosition(LeftPosition, 20);
+                //Console.WriteLine("NB TASK DONE : " + Compteur);
             }
 
             while (Compteur < NumberOfTasks)
@@ -98,14 +98,14 @@ namespace TestThreading.Classes
                 }
                 catch(Exception ex)
                 {
-                    Console.SetCursorPosition(LeftPosition, 21);
+                    //Console.SetCursorPosition(LeftPosition, 21);
 
-                    Console.WriteLine(ex.Message);
+                    //Console.WriteLine(ex.Message);
                     Errors++;
                 }
                 try
                 {
-                    Console.SetCursorPosition(LeftPosition, 20);
+                    //Console.SetCursorPosition(LeftPosition, 20);
 
                     tr.SetEnd(DateTime.Now);
                     TotalMs += (tr.End - tr.Start).TotalMilliseconds;
@@ -113,10 +113,10 @@ namespace TestThreading.Classes
                 }
                 catch (Exception ex)
                 {
-                    Console.SetCursorPosition(LeftPosition, 21);
+                    //Console.SetCursorPosition(LeftPosition, 21);
 
                     Errors++;
-                    Console.WriteLine(ex.Message);
+                    //Console.WriteLine(ex.Message);
 
                 }
 
@@ -144,9 +144,9 @@ namespace TestThreading.Classes
             }
             catch(Exception ex)
             {
-                Console.SetCursorPosition(LeftPosition, 21);
+                //Console.SetCursorPosition(LeftPosition, 21);
                 Errors++;
-                Console.WriteLine(ex.Message);
+                //Console.WriteLine(ex.Message);
             }
 
         }
