@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace TestThreading.Classes
 {
+    public delegate void Notify(TaskResult tr);  // delegate
+    public delegate void NotifyMs(double value);  // delegate
+
     public class ATask : IDisposable
     {
         public DateTime Start { get; private set; }
@@ -20,34 +23,59 @@ namespace TestThreading.Classes
         public bool MoreMultiThreading { get; set; }
         public int LeftPosition{ get; set; }
 
+        public event Notify ProcessCompleted; // event
+        public event NotifyMs TaskCompleted; // event
+
         public ATask(int numberOfTasks = 1000)
         {
             NumberOfTasks = numberOfTasks;
+            TaskCompleted += ATask_TaskCompleted;
         }
 
+        private void ATask_TaskCompleted(double value)
+        {
+            TotalMs += value;
+        }
+
+        protected virtual void OnProcessCompleted(TaskResult tr) //protected virtual method
+        {
+            ProcessCompleted?.Invoke(tr);
+        }
+        protected virtual void OnTaskCompleted(double value) //protected virtual method
+        {
+            TaskCompleted?.Invoke(value);
+        }
         public double RunPoolOfTasks(int taskParThread = 5,bool withSleep = true)
         {
             Start = DateTime.Now;
             Thread th = null;
             for(int i = 0; i < (NumberOfTasks / taskParThread); i++)
             {
+                TaskResult tr = new TaskResult();
+                tr.SetStart(DateTime.Now);
+
                 new Thread(() => 
                 {
                     for(int j = 0; j < taskParThread; j++)
                     {
                         RunNewTaskSync();
                     }
+                    tr.SetEnd(DateTime.Now);
+                    //TotalMs += (tr.End - tr.Start).TotalMilliseconds;
+                    OnProcessCompleted(tr);
+                    OnTaskCompleted((tr.End - tr.Start).TotalMilliseconds);
                 }).Start();
+
                 Thread.Sleep(40);
             }
 
-            while (Compteur < NumberOfTasks)
-            {
-                if (withSleep)
-                {
-                    Thread.Sleep(10);
-                }
-            }
+            //while (Compteur < NumberOfTasks)
+            //{
+            //    if (withSleep)
+            //    {
+            //        Thread.Sleep(10);
+            //    }
+            //}
 
             End = DateTime.Now;
 
@@ -72,10 +100,10 @@ namespace TestThreading.Classes
 
             }
 
-            while (Compteur < NumberOfTasks)
-            {
-                Thread.Sleep(10);
-            }
+            //while (Compteur < NumberOfTasks)
+            //{
+            //    Thread.Sleep(10);
+            //}
             End = DateTime.Now;
 
             return TotalMs /Compteur;
@@ -97,21 +125,22 @@ namespace TestThreading.Classes
                 try
                 {
                     tr.SetEnd(DateTime.Now);
-                    TotalMs += (tr.End - tr.Start).TotalMilliseconds;
-                    Compteur++;
+                    //TotalMs += (tr.End - tr.Start).TotalMilliseconds;
+                    OnProcessCompleted(tr);
+                    OnTaskCompleted((tr.End - tr.Start).TotalMilliseconds);
                 }
                 catch (Exception ex)
                 {
                     Errors++;
                 }
+                Compteur++;
 
             }).Start();
         }
 
         public void RunNewTaskSync()
         {
-            TaskResult tr = new TaskResult();
-            tr.SetStart(DateTime.Now);
+
             try
             {
 
@@ -123,15 +152,13 @@ namespace TestThreading.Classes
             }
             try
             {
-                tr.SetEnd(DateTime.Now);
-                TotalMs += (tr.End - tr.Start).TotalMilliseconds;
+
                 Compteur++;
             }
             catch(Exception ex)
             {
                 Errors++;
             }
-
         }
         public void Dispose()
         {

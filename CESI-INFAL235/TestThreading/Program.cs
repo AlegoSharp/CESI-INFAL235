@@ -11,12 +11,19 @@ using System.Threading.Tasks;
 
 namespace TestThreading
 {
+    public enum ProgramMode
+    {
+        Answer,
+        NoAnswer,
+
+    }
     public class Program
     {
 
         public HttpClient httpClient;
         public Uri requestUri;
         public List<string> values;
+        public ProgramMode Mode;
         static void Mainz(string[] args)
         {
             Console.WriteLine("running");
@@ -64,7 +71,10 @@ namespace TestThreading
             string httpResponseBody = "";
             try
             {
-                httpResponseBody = await httpClient.GetStringAsync(requestUri);
+                if (Mode == ProgramMode.Answer)
+                    httpResponseBody = await httpClient.GetStringAsync(requestUri);
+                else if (Mode == ProgramMode.NoAnswer)
+                    await httpClient.GetAsync(requestUri);
             }
             catch (Exception ex)
             {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using TestThreading.Classes;
 
@@ -10,22 +11,27 @@ namespace TestThreading
 {
     class MainQuery
     {
+        private static List<TaskResult> Results { get; set; }
         static void Main(string[] args)
         {
             string arg1 = "";
             string arg2 = "";
             string arg3 = "";
+            bool modeNoReponse = true;
             int leftPosition = 0;
+
             if(Console.CursorLeft > 0)
                 leftPosition = Console.CursorLeft;
-            if (args.Length > 0)
+
+            if (args.Length > 3)
             {
                 arg1 = args[0];
 
             }
             else
             {
-                arg1 = Console.ReadLine();
+                arg1 = "5";
+
             }
             switch (arg1)
             {
@@ -93,7 +99,6 @@ namespace TestThreading
             Program p = new Program();
             p.httpClient = new HttpClient();
             p.requestUri = new Uri(adr);
-
 
             a.Action = p.CallDate;
             var tasks = a.RunPoolOfTasks(true);
@@ -163,15 +168,19 @@ namespace TestThreading
 
         public static void MultiTaskMultiThreadTen(int nbThread,int nbQuery,int leftPos)
         {
+            MainQuery.Results = new List<TaskResult>();
             string adr = Properties.Api.Default.Adresse;
-            ATask a = new ATask(nbQuery);
-            a.LeftPosition = leftPos;
+
             Program p = new Program();
             p.httpClient = new HttpClient();
             p.requestUri = new Uri(adr);
+            p.Mode = ProgramMode.NoAnswer;
 
-            
+            ATask a = new ATask(nbQuery);
+            a.LeftPosition = leftPos;
+            a.ProcessCompleted += A_ProcessCompleted;
             a.Action = p.CallDate;
+
             var tasks = a.RunPoolOfTasks(nbQuery/ nbThread,true);
 
             Console.ForegroundColor = ConsoleColor.Green;
@@ -191,7 +200,23 @@ namespace TestThreading
             Console.WriteLine("Millisecondes : " + (a.Start - a.End).Milliseconds);
             Console.CursorLeft = leftPos;
 
+            for (int i =0; i< Results.Count;i++)
+            {
+                var res = Results[i];
+                Console.WriteLine("Thread N° : " + i + "            Durée :" + (res.End - res.Start));
+            }
+
             Console.ReadLine();
         }
+
+        private static void A_ProcessCompleted(TaskResult tr)
+        {
+            MainQuery.Results.Add(tr);
+            if(Results.Count == 999)
+            {
+
+            }
+        }
+
     }
 }
