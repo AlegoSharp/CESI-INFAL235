@@ -36,8 +36,6 @@ namespace TestThreading.Classes
                     for(int j = 0; j < taskParThread; j++)
                     {
                         RunNewTaskSync();
-                        Console.SetCursorPosition(0, 0);
-                        Console.WriteLine(Compteur);
                     }
                 });
                 th.Start();
@@ -74,9 +72,11 @@ namespace TestThreading.Classes
                 {
                     RunNewTask();
                 }
+                Thread.Sleep(20);
+
             }
 
-            while(Compteur < NumberOfTasks)
+            while (Compteur < NumberOfTasks)
             {
                 Thread.Sleep(10);
             }
@@ -103,18 +103,20 @@ namespace TestThreading.Classes
                 }
                 try
                 {
-                    Action.Invoke();
+
+                    tr.SetEnd(DateTime.Now);
+                    TotalMs += (tr.End - tr.Start).TotalMilliseconds;
+
+                    //Console.WriteLine((tr.End - tr.Start).TotalSeconds + " secondes"+ Environment.NewLine);
+                    Compteur++;
                 }
                 catch (Exception ex)
                 {
                     Console.SetCursorPosition(0, 2);
 
-                    tr.SetEnd(DateTime.Now);
-                    TotalMs += (tr.End - tr.Start).TotalMilliseconds;
+                    Errors++;
                     Console.WriteLine(ex.Message);
 
-                    //Console.WriteLine((tr.End - tr.Start).TotalSeconds + " secondes"+ Environment.NewLine);
-                    Compteur++; Errors++;
                 }
 
             }).Start();
@@ -139,6 +141,8 @@ namespace TestThreading.Classes
                 TotalMs += (tr.End - tr.Start).TotalMilliseconds;
                 //Console.WriteLine((tr.End - tr.Start).TotalSeconds + " secondes" + Environment.NewLine);
                 Compteur++;
+                Console.SetCursorPosition(0, 0);
+                Console.WriteLine(Compteur);
             }
             catch
             {
