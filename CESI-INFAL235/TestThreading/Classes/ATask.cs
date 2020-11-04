@@ -40,7 +40,8 @@ namespace TestThreading.Classes
                 });
                 th.Start();
                 Thread.Sleep(50);
-
+                Console.SetCursorPosition(0, 20);
+                Console.WriteLine("NB TASK DONE : " + Compteur);
 
             }
 
@@ -52,7 +53,7 @@ namespace TestThreading.Classes
                 }
             }
             Console.SetCursorPosition(0, 20);
-            Console.WriteLine(Compteur);
+            Console.WriteLine("NB TASK DONE : " + Compteur);
             End = DateTime.Now;
 
             return TotalMs / Compteur;
@@ -73,7 +74,8 @@ namespace TestThreading.Classes
                     RunNewTask();
                 }
                 Thread.Sleep(50);
-
+                Console.SetCursorPosition(0, 20);
+                Console.WriteLine("NB TASK DONE : " + Compteur);
             }
 
             while (Compteur < NumberOfTasks)
@@ -107,8 +109,6 @@ namespace TestThreading.Classes
 
                     tr.SetEnd(DateTime.Now);
                     TotalMs += (tr.End - tr.Start).TotalMilliseconds;
-
-                    //Console.WriteLine((tr.End - tr.Start).TotalSeconds + " secondes"+ Environment.NewLine);
                     Compteur++;
                 }
                 catch (Exception ex)
@@ -138,13 +138,9 @@ namespace TestThreading.Classes
             }
             try
             {
-                Console.SetCursorPosition(0, 20);
-
                 tr.SetEnd(DateTime.Now);
                 TotalMs += (tr.End - tr.Start).TotalMilliseconds;
-                //Console.WriteLine((tr.End - tr.Start).TotalSeconds + " secondes" + Environment.NewLine);
                 Compteur++;
-                Console.WriteLine(Compteur);
             }
             catch(Exception ex)
             {
