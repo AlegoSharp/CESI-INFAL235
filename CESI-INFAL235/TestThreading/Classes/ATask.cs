@@ -19,6 +19,7 @@ namespace TestThreading.Classes
         public int Compteur { get; set; }
         public double TotalMs { get; set; }
         public bool MoreMultiThreading { get; set; }
+        public int LeftPosition{ get; set; }
         public ATask(int numberOfTasks = 1000)
         {
             Tasks = new List<TaskResult>();
@@ -31,16 +32,15 @@ namespace TestThreading.Classes
             Thread th = null;
             for(int i = 0; i < (NumberOfTasks / taskParThread); i++)
             {
-                th = new Thread(() => 
+                new Thread(() => 
                 {
                     for(int j = 0; j < taskParThread; j++)
                     {
                         RunNewTaskSync();
                     }
-                });
-                th.Start();
-                Thread.Sleep(50);
-                Console.SetCursorPosition(0, 20);
+                }).Start();
+                Thread.Sleep(40);
+                Console.SetCursorPosition(LeftPosition, 20);
                 Console.WriteLine("NB TASK DONE : " + Compteur);
 
             }
@@ -52,7 +52,7 @@ namespace TestThreading.Classes
                     Thread.Sleep(10);
                 }
             }
-            Console.SetCursorPosition(0, 20);
+            Console.SetCursorPosition(LeftPosition, 20);
             Console.WriteLine("NB TASK DONE : " + Compteur);
             End = DateTime.Now;
 
@@ -74,7 +74,7 @@ namespace TestThreading.Classes
                     RunNewTask();
                 }
                 Thread.Sleep(50);
-                Console.SetCursorPosition(0, 20);
+                Console.SetCursorPosition(LeftPosition, 20);
                 Console.WriteLine("NB TASK DONE : " + Compteur);
             }
 
@@ -98,14 +98,14 @@ namespace TestThreading.Classes
                 }
                 catch(Exception ex)
                 {
-                    Console.SetCursorPosition(0, 21);
+                    Console.SetCursorPosition(LeftPosition, 21);
 
                     Console.WriteLine(ex.Message);
                     Errors++;
                 }
                 try
                 {
-                    Console.SetCursorPosition(0, 20);
+                    Console.SetCursorPosition(LeftPosition, 20);
 
                     tr.SetEnd(DateTime.Now);
                     TotalMs += (tr.End - tr.Start).TotalMilliseconds;
@@ -113,7 +113,7 @@ namespace TestThreading.Classes
                 }
                 catch (Exception ex)
                 {
-                    Console.SetCursorPosition(0, 21);
+                    Console.SetCursorPosition(LeftPosition, 21);
 
                     Errors++;
                     Console.WriteLine(ex.Message);
@@ -144,7 +144,7 @@ namespace TestThreading.Classes
             }
             catch(Exception ex)
             {
-                Console.SetCursorPosition(0, 21);
+                Console.SetCursorPosition(LeftPosition, 21);
                 Errors++;
                 Console.WriteLine(ex.Message);
             }

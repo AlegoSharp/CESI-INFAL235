@@ -27,28 +27,31 @@ namespace TestThreading
             switch (arg1)
             {
                 case "0":
-                    SingleThread(); break;
+                    SingleThread(); Environment.Exit(0); break;
 
                 case "1":
-                    MultiThreadAuCarre(); break;
+                    MultiThreadAuCarre(); Environment.Exit(0); break;
 
                 case "2":
-                    MultiThread(); break;
+                    MultiThread(); Environment.Exit(0); break;
 
                 case "3":
-                    MultiTaskMultiThreadFive(); break;
+                    MultiTaskMultiThreadFive(); Environment.Exit(0); break;
 
                 case "4":
-                    MultiTaskMultiThreadTen(); break;
+                    MultiTaskMultiThreadTen(); Environment.Exit(0); break;
 
                 case "5":
                     Console.WriteLine("Nb thread");
                     arg2 = Console.ReadLine();
                     Console.WriteLine("Nb query to api");
                     arg3 = Console.ReadLine();
-                    MultiTaskMultiThreadTen(int.Parse(arg2),int.Parse(arg3));
+                    MultiTaskMultiThreadTen(int.Parse(arg2),int.Parse(arg3), Console.CursorLeft);
                     break;
             }
+            
+            Console.SetCursorPosition(Console.CursorLeft + 30, 0);
+            Main(args);
         }
 
         public static void SingleThread()
@@ -144,10 +147,11 @@ namespace TestThreading
             Console.ReadLine();
         }
 
-        public static void MultiTaskMultiThreadTen(int nbThread,int nbQuery)
+        public static void MultiTaskMultiThreadTen(int nbThread,int nbQuery,int leftPos)
         {
             string adr = Properties.Api.Default.Adresse;
             ATask a = new ATask(nbQuery);
+            a.LeftPosition = leftPos;
             Program p = new Program();
             p.httpClient = new HttpClient();
             p.requestUri = new Uri(adr);
