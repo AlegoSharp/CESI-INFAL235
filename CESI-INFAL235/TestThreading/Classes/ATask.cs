@@ -39,7 +39,7 @@ namespace TestThreading.Classes
                     }
                 });
                 th.Start();
-                Thread.Sleep(20);
+                Thread.Sleep(50);
 
 
             }
@@ -51,7 +51,7 @@ namespace TestThreading.Classes
                     Thread.Sleep(10);
                 }
             }
-            Console.SetCursorPosition(0, 0);
+            Console.SetCursorPosition(0, 20);
             Console.WriteLine(Compteur);
             End = DateTime.Now;
 
@@ -96,13 +96,14 @@ namespace TestThreading.Classes
                 }
                 catch(Exception ex)
                 {
-                    Console.SetCursorPosition(0, 2);
+                    Console.SetCursorPosition(0, 21);
 
                     Console.WriteLine(ex.Message);
                     Errors++;
                 }
                 try
                 {
+                    Console.SetCursorPosition(0, 20);
 
                     tr.SetEnd(DateTime.Now);
                     TotalMs += (tr.End - tr.Start).TotalMilliseconds;
@@ -112,7 +113,7 @@ namespace TestThreading.Classes
                 }
                 catch (Exception ex)
                 {
-                    Console.SetCursorPosition(0, 2);
+                    Console.SetCursorPosition(0, 21);
 
                     Errors++;
                     Console.WriteLine(ex.Message);
@@ -137,16 +138,19 @@ namespace TestThreading.Classes
             }
             try
             {
+                Console.SetCursorPosition(0, 20);
+
                 tr.SetEnd(DateTime.Now);
                 TotalMs += (tr.End - tr.Start).TotalMilliseconds;
                 //Console.WriteLine((tr.End - tr.Start).TotalSeconds + " secondes" + Environment.NewLine);
                 Compteur++;
-                Console.SetCursorPosition(0, 0);
                 Console.WriteLine(Compteur);
             }
-            catch
+            catch(Exception ex)
             {
-
+                Console.SetCursorPosition(0, 21);
+                Errors++;
+                Console.WriteLine(ex.Message);
             }
 
         }
