@@ -16,7 +16,7 @@ namespace TestThreading
             string arg2 = "";
             string arg3 = "";
             int leftPosition = 0;
-            if(leftPosition > 0)
+            if(Console.CursorLeft > 0)
                 leftPosition = Console.CursorLeft;
             if (args.Length > 0)
             {
@@ -57,11 +57,14 @@ namespace TestThreading
                     Console.WriteLine("Nb query to api");
                     //Console.CursorTop++;
                     arg3 = Console.ReadLine();
+                    Console.WriteLine(Environment.NewLine);
+                    Console.WriteLine(Environment.NewLine);
+                    Console.WriteLine(Environment.NewLine);
 
                     MultiTaskMultiThreadTen(int.Parse(arg2),int.Parse(arg3), leftPosition);
                     break;
             }
-            leftPosition = leftPosition + 30;
+            Console.CursorLeft = leftPosition + 30;
             Main(args);
         }
 
@@ -174,12 +177,20 @@ namespace TestThreading
             Console.ForegroundColor = ConsoleColor.Green;
             Console.CursorLeft = leftPos;
             Console.WriteLine("NB THREAD : " + nbThread);
+            Console.CursorLeft = leftPos;
+
             Console.WriteLine("NB CALLS : " + nbQuery);
+            Console.CursorLeft = leftPos;
+
             Console.WriteLine("Minutes : " + (a.Start - a.End).Minutes);
-            Console.CursorTop++;
+            Console.CursorLeft = leftPos;
+
             Console.WriteLine("Secondes : " + (a.Start - a.End).Seconds);
-            Console.CursorTop++;
+            Console.CursorLeft = leftPos;
+
             Console.WriteLine("Millisecondes : " + (a.Start - a.End).Milliseconds);
+            Console.CursorLeft = leftPos;
+
             Console.ReadLine();
         }
     }
