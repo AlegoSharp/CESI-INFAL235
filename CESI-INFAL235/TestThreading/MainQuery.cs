@@ -13,6 +13,8 @@ namespace TestThreading
         static void Main(string[] args)
         {
             string arg1 = "";
+            string arg2 = "";
+            string arg3 = "";
             if (args.Length > 0)
             {
                 arg1 = args[0];
@@ -38,6 +40,14 @@ namespace TestThreading
 
                 case "4":
                     MultiTaskMultiThreadTen(); break;
+
+                case "5":
+                    Console.WriteLine("Nb thread");
+                    arg2 = Console.ReadLine();
+                    Console.WriteLine("Nb query to api");
+                    arg3 = Console.ReadLine();
+                    MultiTaskMultiThreadTen(int.Parse(arg2),int.Parse(arg3));
+                    break;
             }
         }
 
@@ -134,5 +144,23 @@ namespace TestThreading
             Console.ReadLine();
         }
 
+        public static void MultiTaskMultiThreadTen(int nbThread,int nbQuery)
+        {
+            string adr = Properties.Api.Default.Adresse;
+            ATask a = new ATask(nbQuery);
+            Program p = new Program();
+            p.httpClient = new HttpClient();
+            p.requestUri = new Uri(adr);
+
+            
+            a.Action = p.CallDate;
+            var tasks = a.RunPoolOfTasks(nbQuery/ nbThread,true);
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("Minutes : " + (a.Start - a.End).Minutes);
+            Console.WriteLine("Secondes : " + (a.Start - a.End).Seconds);
+            Console.WriteLine("Millisecondes : " + (a.Start - a.End).Milliseconds);
+            Console.ReadLine();
+        }
     }
 }
